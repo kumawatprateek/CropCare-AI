@@ -1,212 +1,143 @@
-# Potato Disease Classification
+# CropCare AI
 
-## Setup for Python:
+## Project Overview
+CropCare AI is a deep learning-based application for classifying potato diseases. It includes a trained machine learning model deployed via FastAPI, a React frontend, and a React Native mobile application.
 
-1. Install Python ([Setup instructions](https://wiki.python.org/moin/BeginnersGuide))
+## Setup Instructions
 
-2. Install Python packages
+### Python Setup
+1. Install Python (Setup instructions)
+2. Install required Python packages:
+   ```sh
+   pip3 install -r training/requirements.txt
+   pip3 install -r api/requirements.txt
+   ```
+3. Install TensorFlow Serving (Setup instructions)
 
-```
-pip3 install -r training/requirements.txt
-pip3 install -r api/requirements.txt
-```
+### ReactJS Setup
+1. Install Node.js (Setup instructions)
+2. Install NPM (Setup instructions)
+3. Install dependencies:
+   ```sh
+   cd frontend
+   npm install --from-lock-json
+   npm audit fix
+   ```
+4. Copy `.env.example` as `.env` and update the API URL if needed.
 
-3. Install Tensorflow Serving ([Setup instructions](https://www.tensorflow.org/tfx/serving/setup))
+### React Native Setup
+1. Follow the [React Native CLI Quickstart](https://reactnative.dev/docs/environment-setup) for your OS.
+2. Install dependencies:
+   ```sh
+   cd mobile-app
+   yarn install
+   ```
+3. (Mac users only) Install pods:
+   ```sh
+   cd ios && pod install && cd ../
+   ```
+4. Copy `.env.example` as `.env` and update the API URL.
 
-## Setup for ReactJS
-
-1. Install Nodejs ([Setup instructions](https://nodejs.org/en/download/package-manager/))
-2. Install NPM ([Setup instructions](https://www.npmjs.com/get-npm))
-3. Install dependencies
-
-```bash
-cd frontend
-npm install --from-lock-json
-npm audit fix
-```
-
-4. Copy `.env.example` as `.env`.
-
-5. Change API url in `.env`.
-
-## Setup for React-Native app
-
-1. Go to the [React Native environment setup](https://reactnative.dev/docs/environment-setup), then select `React Native CLI Quickstart` tab.  
-
-2. Install dependencies
-
-```bash
-cd mobile-app
-yarn install
-```
-
-  - 2.1 Only for mac users
-```bash
-cd ios && pod install && cd ../
-```
-
-3. Copy `.env.example` as `.env`.
-
-4. Change API url in `.env`.
-
-## Training the Model
-
-1. Download the data from [kaggle](https://www.kaggle.com/arjuntejaswi/plant-village).
-2. Only keep folders related to Potatoes.
-3. Run Jupyter Notebook in Browser.
-
-```bash
-jupyter notebook
-```
-
-4. Open `training/potato-disease-training.ipynb` in Jupyter Notebook.
-5. In cell #2, update the path to dataset.
-6. Run all the Cells one by one.
-7. Copy the model generated and save it with the version number in the `models` folder.
+## Model Training
+1. Download the dataset from Kaggle.
+2. Keep only folders related to potatoes.
+3. Run Jupyter Notebook:
+   ```sh
+   jupyter notebook
+   ```
+4. Open `training/potato-disease-training.ipynb` and update the dataset path.
+5. Run all cells.
+6. Save the generated model with a version number in the `models` folder.
 
 ## Running the API
 
 ### Using FastAPI
+1. Navigate to the API folder:
+   ```sh
+   cd api
+   ```
+2. Run the FastAPI server:
+   ```sh
+   uvicorn main:app --reload --host 0.0.0.0
+   ```
+3. The API will be available at `http://0.0.0.0:8000`
 
-1. Get inside `api` folder
-
-```bash
-cd api
-```
-
-2. Run the FastAPI Server using uvicorn
-
-```bash
-uvicorn main:app --reload --host 0.0.0.0
-```
-
-3. Your API is now running at `0.0.0.0:8000`
-
-### Using FastAPI & TF Serve
-
-1. Get inside `api` folder
-
-```bash
-cd api
-```
-
-2. Copy the `models.config.example` as `models.config` and update the paths in file.
-3. Run the TF Serve (Update config file path below)
-
-```bash
-docker run -t --rm -p 8501:8501 -v C:/Code/potato-disease-classification:/potato-disease-classification tensorflow/serving --rest_api_port=8501 --model_config_file=/potato-disease-classification/models.config
-```
-
-4. Run the FastAPI Server using uvicorn
-   For this you can directly run it from your main.py or main-tf-serving.py using pycharm run option (as shown in the video tutorial)
-   OR you can run it from command prompt as shown below,
-
-```bash
-uvicorn main-tf-serving:app --reload --host 0.0.0.0
-```
-
-5. Your API is now running at `0.0.0.0:8000`
+### Using FastAPI & TensorFlow Serving
+1. Copy `models.config.example` as `models.config` and update paths.
+2. Run TensorFlow Serving:
+   ```sh
+   docker run -t --rm -p 8501:8501 -v C:/Code/potato-disease-classification:/potato-disease-classification tensorflow/serving --rest_api_port=8501 --model_config_file=/potato-disease-classification/models.config
+   ```
+3. Run the FastAPI server:
+   ```sh
+   uvicorn main-tf-serving:app --reload --host 0.0.0.0
+   ```
 
 ## Running the Frontend
+1. Navigate to the frontend folder:
+   ```sh
+   cd frontend
+   ```
+2. Copy `.env.example` as `.env` and update `REACT_APP_API_URL` if needed.
+3. Start the frontend:
+   ```sh
+   npm run start
+   ```
 
-1. Get inside `api` folder
+## Running the Mobile App
+1. Navigate to the mobile app folder:
+   ```sh
+   cd mobile-app
+   ```
+2. Copy `.env.example` as `.env` and update the API URL if needed.
+3. Run the app on Android/iOS:
+   ```sh
+   npm run android
+   # or
+   npm run ios
+   ```
 
-```bash
-cd frontend
-```
+## Creating a TF Lite Model
+1. Run Jupyter Notebook:
+   ```sh
+   jupyter notebook
+   ```
+2. Open `training/tf-lite-converter.ipynb` and update the dataset path.
+3. Run all cells.
+4. The model will be saved in the `tf-lite-models` folder.
 
-2. Copy the `.env.example` as `.env` and update `REACT_APP_API_URL` to API URL if needed.
-3. Run the frontend
+## Deploying the Model on Google Cloud Platform (GCP)
 
-```bash
-npm run start
-```
+### Deploying TF Lite Model
+1. Create a GCP account and project.
+2. Create a GCP bucket and upload `models/potatos.h5`.
+3. Install Google Cloud SDK (Setup instructions).
+4. Authenticate:
+   ```sh
+   gcloud auth login
+   ```
+5. Deploy the function:
+   ```sh
+   cd gcp
+   gcloud functions deploy predict_lite --runtime python38 --trigger-http --memory 512 --project <project_id>
+   ```
 
-## Running the app
+### Deploying TF Model (.h5)
+1. Upload `models/potato-model.h5` to GCP.
+2. Deploy the function:
+   ```sh
+   cd gcp
+   gcloud functions deploy predict --runtime python38 --trigger-http --memory 512 --project <project_id>
+   ```
+3. Use Postman to test the deployed function using the trigger URL.
 
-1. Get inside `mobile-app` folder
+## Demo Images
+Below are some sample images from the project:
 
-```bash
-cd mobile-app
-```
+![Web App UI](demo_images/web_app.png)
+![Mobile App UI](demo_images/mobile_app.png)
+![Model Training Process](demo_images/model_training.png)
 
-2. Copy the `.env.example` as `.env` and update `URL` to API URL if needed.
-
-3. Run the app (android/iOS)
-
-```bash
-npm run android
-```
-
-or
-
-```bash
-npm run ios
-```
-
-4. Creating public ([signed APK](https://reactnative.dev/docs/signed-apk-android))
-
-
-## Creating the TF Lite Model
-
-1. Run Jupyter Notebook in Browser.
-
-```bash
-jupyter notebook
-```
-
-2. Open `training/tf-lite-converter.ipynb` in Jupyter Notebook.
-3. In cell #2, update the path to dataset.
-4. Run all the Cells one by one.
-5. Model would be saved in `tf-lite-models` folder.
-
-## Deploying the TF Lite on GCP
-
-1. Create a [GCP account](https://console.cloud.google.com/freetrial/signup/tos?_ga=2.25841725.1677013893.1627213171-706917375.1627193643&_gac=1.124122488.1627227734.Cj0KCQjwl_SHBhCQARIsAFIFRVVUZFV7wUg-DVxSlsnlIwSGWxib-owC-s9k6rjWVaF4y7kp1aUv5eQaAj2kEALw_wcB).
-2. Create a [Project on GCP](https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project) (Keep note of the project id).
-3. Create a [GCP bucket](https://console.cloud.google.com/storage/browser/).
-4. Upload the potatoes.h5 model in the bucket in the path `models/potatos.h5`.
-5. Install Google Cloud SDK ([Setup instructions](https://cloud.google.com/sdk/docs/quickstarts)).
-6. Authenticate with Google Cloud SDK.
-
-```bash
-gcloud auth login
-```
-
-7. Run the deployment script.
-
-```bash
-cd gcp
-gcloud functions deploy predict_lite --runtime python38 --trigger-http --memory 512 --project project_id
-```
-
-8. Your model is now deployed.
-9. Use Postman to test the GCF using the [Trigger URL](https://cloud.google.com/functions/docs/calling/http).
-
-Inspiration: https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions
-
-## Deploying the TF Model (.h5) on GCP
-
-1. Create a [GCP account](https://console.cloud.google.com/freetrial/signup/tos?_ga=2.25841725.1677013893.1627213171-706917375.1627193643&_gac=1.124122488.1627227734.Cj0KCQjwl_SHBhCQARIsAFIFRVVUZFV7wUg-DVxSlsnlIwSGWxib-owC-s9k6rjWVaF4y7kp1aUv5eQaAj2kEALw_wcB).
-2. Create a [Project on GCP](https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project) (Keep note of the project id).
-3. Create a [GCP bucket](https://console.cloud.google.com/storage/browser/).
-4. Upload the tf .h5 model generate in the bucket in the path `models/potato-model.h5`.
-5. Install Google Cloud SDK ([Setup instructions](https://cloud.google.com/sdk/docs/quickstarts)).
-6. Authenticate with Google Cloud SDK.
-
-```bash
-gcloud auth login
-```
-
-7. Run the deployment script.
-
-```bash
-cd gcp
-gcloud functions deploy predict --runtime python38 --trigger-http --memory 512 --project project_id
-```
-
-8. Your model is now deployed.
-9. Use Postman to test the GCF using the [Trigger URL](https://cloud.google.com/functions/docs/calling/http).
-
-Inspiration: https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions
+## References
+- [Serving TensorFlow Models with Cloud Functions](https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions)
 
