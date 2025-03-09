@@ -1,5 +1,5 @@
 # CropCare AI
-![Logo](frontend/Images/CropCare AI.png)
+![Logo](frontend/Images/CropCare_AI.png)
 ## Project Overview
 CropCare AI is a deep learning-based application for classifying potato diseases. It includes a trained machine learning model deployed via FastAPI, a React frontend, and a React Native mobile application.
 
@@ -134,8 +134,8 @@ CropCare AI is a deep learning-based application for classifying potato diseases
 ## Demo Images
 Below are some sample images from the project:
 
-![Web App UI](frontend/Images/Web Home.png)
-![Web App UI](frontend/Images/web.png)
+![Web UI](frontend/Images/Web_Home.png)
+![Web](frontend/Images/web.png)
 ![Mobile App UI](demo_images/mobile_app.png)
 ![Model Training Process](demo_images/model_training.png)
 
