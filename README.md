@@ -148,11 +148,11 @@ Below are some sample images from the project:
 
 #### Home Screen Web
 <div align="center">
-    <img src="frontend/Images/Web.png" alt="Home Screen" width="500">
+    <img src="frontend/Images/web.jpg" alt="Home Screen" width="500">
 </div>
 #### Model
 <div align="center">
-    <img src="demo_images/model training.png" alt="Home Screen" width="500">
+    <img src="frontend/Images/paper.png" alt="Home Screen" width="500">
 </div>
 
 ## References
