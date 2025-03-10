@@ -136,11 +136,24 @@ CropCare AI is a deep learning-based application for classifying potato diseases
 
 ## Demo Images
 Below are some sample images from the project:
+#### Home Screen APP
+<div align="center">
+    <img src="frontend/Images/Untitled design.png" alt="Home Screen" width="500">
+</div>
 
-![Web UI](frontend/Images/Web_Home.png)
-![Web](frontend/Images/web.png)
-![Mobile App UI](demo_images/mobile_app.png)
-![Model Training Process](demo_images/model_training.png)
+#### Home Screen Web
+<div align="center">
+    <img src="frontend/Images/Web Home.png" alt="Home Screen" width="500">
+</div>
+
+#### Home Screen Web
+<div align="center">
+    <img src="frontend/Images/web.png" alt="Home Screen" width="500">
+</div>
+#### Model
+<div align="center">
+    <img src="demo_images/model_training.png" alt="Home Screen" width="500">
+</div>
 
 ## References
 - [Serving TensorFlow Models with Cloud Functions](https://cloud.google.com/blog/products/ai-machine-learning/how-to-serve-deep-learning-models-using-tensorflow-2-0-with-cloud-functions)
